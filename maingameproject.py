@@ -35,6 +35,16 @@ sx,sy = (ballspeed, ballspeed)
 ballRect.topleft = (bx,by)
 
 #brick init
+brick = pygame.image.load('brick.png')
+bricks = []
+for y in range(5):
+    brickY = (y * 24) + 100
+    for x in range(10):
+        brickX = (x * 24) + 245
+        width = brick.get_width()
+        height = brick.get_height()
+        rect = Rect(brickX,brickY,width, height)
+        bricks.append(rect)
 
 
 
@@ -42,7 +52,10 @@ ballRect.topleft = (bx,by)
 while True:
     screen.fill(background)
     screen.blit(bat,batRect)
-    screen.blit(ball,ballRect) #wrinting the ball on the screen
+    screen.blit(ball,ballRect) #writing the ball on the screen
+    #draw the brick on the screen
+    for b in bricks:
+        screen.blit(brick,b)
     
     for event in pygame.event.get():
         if event.type == QUIT:
@@ -55,11 +68,13 @@ while True:
                 batRect.topleft = (mousex,playerY) # this if statement binds the bat rect with variables mousex and mousey
             else:
                 batRect.topleft = (800-55,playerY) #if mouse is at 745 then also it will move the bat
-
+        elif event.type == MOUSEBUTTONUP and not ballServed:
+            ballServed = True
     #main game logic
-    bx += sx #here iam adding 3px distance for ball on each frame so by d=sxt ball 180px horizontally on each frame 
-    by += sy #so the ball gets added  3px x and y coordinate so that it moves horizontally
-    ballRect.topleft = (bx,by)
+    if ballServed:
+        bx += sx #here iam adding 3px distance for ball on each frame so by d=sxt ball 180px horizontally on each frame 
+        by += sy #so the ball gets added  3px x and y coordinate so that it moves horizontally
+        ballRect.topleft = (bx,by)
     if (by < 0): #now giving the main logic of colliding the walls  if the ball is at 0px or out side of screen
         by = 0   #then it must come to the 0 pixel 
         sy *=-1  #then the ball speed get negatived and it moves in opposite direction 
@@ -72,6 +87,10 @@ while True:
     if (bx >= 800-8):#And finally this for the right wall
         bx = 800 - 8
         sx *= -1
+
+    if ballRect.colliderect(batRect):
+        by = playerY -8
+        sy *= -1
     pygame.display.update()
     fps.tick(60)
 

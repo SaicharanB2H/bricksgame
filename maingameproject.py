@@ -13,7 +13,7 @@ pygame.init()
 
 #setting up the main screen 
 screen = pygame.display.set_mode((800,600))
-pygame.display.set_caption('Bricks game')
+pygame.display.set_caption('Bricks game by charan')
 fps = pygame.time.Clock()
 
 background = pygame.Color(100,149,237)

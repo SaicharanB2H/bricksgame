@@ -113,3 +113,4 @@ while True:
     fps.tick(60)
  
  #so i have successfully completed my first game with pygame which is a module of python
+ #18:13 GMT +5 0.5 hrs date 23-12-2020

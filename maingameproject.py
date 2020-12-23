@@ -78,19 +78,38 @@ while True:
     if (by < 0): #now giving the main logic of colliding the walls  if the ball is at 0px or out side of screen
         by = 0   #then it must come to the 0 pixel 
         sy *=-1  #then the ball speed get negatived and it moves in opposite direction 
-    if (by >= 600-8):#this is the same logic for all the four sides this is down wall
-        by = 600 -8 
-        sy *= -1
+    if (by >= 600-8):
+        ballServed = False  #this is the same logic for all the four sides this is down wall
+        bx,by = (24, ballstartY)
+        ballspeed = 3
+        sx,sy = (ballspeed,ballspeed)
+        ballRect.topleft = (bx,by)
+        
     if (bx < 0): #this is for the left wall
         bx = 0
         sx *= -1
     if (bx >= 800-8):#And finally this for the right wall
         bx = 800 - 8
         sx *= -1
+    #collision detection
+    brickHitIndex = ballRect.collidelist(bricks)
+    if brickHitIndex >= 0:
+        hb = bricks[brickHitIndex]
+        mx = bx + 4 
+        my = by + 4
+
+        if mx > hb.x + hb.width or mx < hb.x: 
+            sx *= -1
+        else:
+            sy *= -1
+
+        del (bricks[brickHitIndex])
+
 
     if ballRect.colliderect(batRect):
         by = playerY -8
         sy *= -1
     pygame.display.update()
     fps.tick(60)
-
+ 
+ #so i have successfully completed my first game with pygame which is a module of python
